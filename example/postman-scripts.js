@@ -8,7 +8,7 @@ module.exports = {
       script: [
         {
           listen: "test",
-          exec: "pm.environment.set('userToken', body.token)"
+          exec: ["pm.environment.set('userToken', body.token)"]
         }
       ]
     }
