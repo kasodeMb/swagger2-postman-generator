@@ -42,7 +42,7 @@ function addSomeTests(item, scripts) {
       listen: value.listen,
       script: {
         id: uuidv4(),
-        exec: [value.exec],
+        exec: [typeof value.exec === "function" ? value.exec() : value.exec],
         type: "text/javascript"
       }
     };
