@@ -1,6 +1,6 @@
 {
   "name": "swagger2-postman2-generator",
-  "version": "3.0",
+  "version": "3.0.0",
   "description": "Use Swagger v2 YAML Collections to generate Postman v2 collections which include sample request bodies",
   "main": "swagger2-postman2-generator.js",
   "scripts": {
