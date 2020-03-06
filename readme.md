@@ -6,7 +6,7 @@ Based on the [swagger2-to-postman](https://github.com/postmanlabs/swagger2-to-po
 
 Features:
 
-- Import Swagger Spec direct YAML file
+- Import Swagger Spec directly from YAML file
 
 - Export Postman Collection to JSON file
 
@@ -16,6 +16,4 @@ Features:
 
 ## Usage
 
-```
-node ./lib/generatePostman.js --outputPath=output --swagger=example/swagger.yaml --postmanConfig=example/postman-scripts.js
-```
+```node ./lib/generatePostman.js --outputPath=output --swagger=example/swagger.yaml --postmanConfig=example/postman-scripts.js```
