@@ -4,7 +4,7 @@
   "description": "Use Swagger v2 YAML Collections to generate Postman v2 collections which include sample request bodies",
   "main": "swagger2-postman2-generator.js",
   "scripts": {
-    "test": "node ./lib/generatePostman.js --outputPath=output --swagger=example/swagger.yaml --postmanConfig=example/postman-scripts.js"
+    "test": "node ./lib/generatePostman.js --outputPath=output --swagger=example/swagger.yaml --postmanConfig=example/postman-scripts.js --envPath=example/.env"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/djfdyuruiry/swagger2-postman-generator#readme",
   "dependencies": {
+    "dotenv": "8.1.0",
     "swagger2-postman2-parser": "git+https://github.com/postmanlabs/swagger2-postman2.git",
     "swagger2-to-json": "^1.1.3",
     "swagger2-to-object": "^1.0.9",

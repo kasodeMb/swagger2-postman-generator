@@ -2,9 +2,7 @@ const fs = require("fs");
 const uuidv4 = require("uuid").v4;
 
 const Swagger2Postman = require("swagger2-postman2-parser");
-
 const buildPostmanEnvironment = require("./buildPostmanEnvironment.js");
-
 const ignoredVariables = ["scheme", "host", "port", "url"];
 
 function validateSwaggerJson(jsonString) {
@@ -147,15 +145,38 @@ async function convertSwaggerToPostmanEnvironment(swaggerSpec, options) {
   var uniqueVariableDictionary = {};
 
   uniqueVariables.forEach(v => {
+    var isInEnv;
     var sanitisedVariableName = v.replace(/^{{|}}$/gm, "");
     uniqueVariableDictionary[sanitisedVariableName] = true;
 
     if (ignoredVariables.includes(sanitisedVariableName)) {
       return;
     }
-    var environmentVariable = buildEnvironmentVariable(sanitisedVariableName);
-    environmentVariables.push(environmentVariable);
+    if (options && options.envVariables) {
+      isInEnv = options.envVariables.findIndex(v =>
+        v ? v.key === sanitisedVariableName : false
+      );
+    }
+    if (isInEnv >= 0) {
+      environmentVariables.push(
+        buildEnvironmentVariable(
+          sanitisedVariableName,
+          options.envVariables[isInEnv].value
+        )
+      );
+      delete options.envVariables[isInEnv];
+    } else {
+      environmentVariables.push(
+        buildEnvironmentVariable(sanitisedVariableName)
+      );
+    }
   });
+
+  if (options && options.envVariables) {
+    options.envVariables.forEach(v => {
+      environmentVariables.push(buildEnvironmentVariable(v.key, v.value));
+    });
+  }
 
   if (
     !options ||
