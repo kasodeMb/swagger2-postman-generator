@@ -82,21 +82,17 @@ function parameterizeRequest(requestItem, options) {
 async function convertSwaggerToPostman(swaggerSpec, options) {
   const { output } = await convertSwaggerSpecToPostmanCollection(swaggerSpec);
   const postmanCollection = output[0].data;
-  //   console.log(swaggerSpec);
 
   // TODO: Make recursive
   postmanCollection.item.forEach(postmanItem => {
     if (postmanItem.request) {
-      //   console.log("first", postmanItem);
       parameterizeRequest(postmanItem, options);
     } else {
       postmanItem.item.forEach(requestCollection => {
         if (requestCollection.request) {
-          //   console.log("second", requestCollection);
           parameterizeRequest(requestCollection, options);
         } else if (requestCollection.item) {
           requestCollection.item.forEach(requestItem => {
-            // console.log("third", requestItem);
             parameterizeRequest(requestItem, options);
           });
         }
