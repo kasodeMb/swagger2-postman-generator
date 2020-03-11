@@ -1,0 +1,51 @@
+swagger: "2.0"
+info:
+  title: Sample API
+  description: API description in Markdown.
+  version: 1.0.0
+host: api.example.com
+basePath: /v1
+schemes:
+  - https
+paths:
+  /user:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+  /user/login:
+    post:
+      summary: Logs user into the system
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                format: email
+                description: The email for login
+                default: "{{email}}"
+              password:
+                type: string
+                format: password
+                description: The password for login in clear text
+                default: "{{password}}"
+      responses:
+        200:
+          description: Token for authentication
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
