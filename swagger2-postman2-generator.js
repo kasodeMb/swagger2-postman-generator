@@ -79,25 +79,20 @@ function parameterizeRequest(requestItem, options) {
 
 async function convertSwaggerToPostman(swaggerSpec, options) {
   const { output } = await convertSwaggerSpecToPostmanCollection(swaggerSpec);
-  const postmanCollection = output[0].data;
+  let postmanCollection = output[0].data;
 
-  // TODO: Make recursive
-  postmanCollection.item.forEach(postmanItem => {
-    if (postmanItem.request) {
-      parameterizeRequest(postmanItem, options);
-    } else {
-      postmanItem.item.forEach(requestCollection => {
-        if (requestCollection.request) {
-          parameterizeRequest(requestCollection, options);
-        } else if (requestCollection.item) {
-          requestCollection.item.forEach(requestItem => {
-            parameterizeRequest(requestItem, options);
-          });
-        }
+  const addExtras = collection => {
+    if (collection.request) {
+      parameterizeRequest(collection, options);
+    } else if (collection.item) {
+      collection.item.forEach(item => {
+        addExtras(item);
       });
     }
-  });
-  return postmanCollection;
+    return collection;
+  };
+
+  return addExtras(postmanCollection);
 }
 
 async function convertSwaggerToPostmanJson(swaggerSpec, options) {
